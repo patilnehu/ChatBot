@@ -1,4 +1,6 @@
-import { User, Bot } from 'lucide-react'
+import { User, Bot } from 'lucide-react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 const ChatMessage = ({ chat }) => {
   const isUser = chat.role === 'user'
@@ -24,7 +26,26 @@ const ChatMessage = ({ chat }) => {
               : 'bg-white text-gray-800 rounded-tl-none'
           }`}
         >
-          <p className="text-sm">{chat.text}</p>
+          {/* <p className="text-sm">{chat.text}</p> */}
+
+          <ReactMarkdown
+            remarkPlugins={[remarkGfm]} // Enable GitHub-flavored Markdown
+            components={{
+              // Customize Markdown elements (optional)
+              a: ({ href, children }) => (
+                <a
+                  href={href}
+                  className="text-blue-500 underline"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {children}
+                </a>
+              ),
+            }}
+          >
+            {chat.text}
+          </ReactMarkdown>
         </div>
       </div>
     </div>
